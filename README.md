@@ -38,3 +38,32 @@ $ pytracer example.py
                   re,glob,random,codecs,argparse)
       -f F        modules to focus at (comma delimited)
 
+## Advanced Usage ##
+
+If you want to trace a single function just add the trace() decorator. Also it is possible to ignore not interesting subcalls:
+
+```python
+import pytracer
+
+@pytracer.no_trace()
+def g():
+    return 42
+
+@pytracer.trace()
+def f():
+    return g()
+
+f()
+```
+
+The module also can be used as a context manager:
+
+```python
+import pytracer
+
+def f():
+    return 42
+
+with pytracer.trace():
+    f()
+```
