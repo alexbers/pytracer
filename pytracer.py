@@ -7,6 +7,7 @@ import os
 import glob
 import re
 import argparse
+import functools
 
 not_interesting_modules = set()
 interesting_modules = set()
@@ -183,7 +184,10 @@ def trace_func(frame, event, event_arg):
     return trace_func
 
 
-def no_trace(f):
+def no_trace(f=None):
+    if f is None:
+        return no_trace
+
     global no_trace_funcs
     no_trace_funcs.add(f.__code__)
     return f
@@ -216,6 +220,28 @@ def start_trace(max_arg_len=32,
 def stop_trace():
     global old_tracer
     sys.settrace(old_tracer)
+
+
+class trace:
+    def __init__(self, **dec_kwargs):
+        self.dec_kwargs = dec_kwargs
+
+    def __call__(self, f):
+        @functools.wraps(f)
+        def new_f(*args, **kwargs):
+            start_trace(**self.dec_kwargs)
+            ret = f(*args, **kwargs)
+            stop_trace()
+            return ret
+        return new_f
+
+    @no_trace
+    def __enter__(self):
+        start_trace(**self.dec_kwargs)
+
+    @no_trace
+    def __exit__(self, *args):
+        stop_trace()
 
 
 if __name__ == "__main__":
