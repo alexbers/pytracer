@@ -2,22 +2,23 @@
 
 Prints function calls of the Python program.
 
-    $ cat example.py
-    def f(a):
-        return g(a, "20")
+```console
+$ cat example.py
+def f(a):
+    return g(a, "20")
 
-    def g(a, b):
-        return b, a
+def g(a, b):
+    return b, a
 
-    f(10)
+f(10)
     
-    $ pytracer example.py
-    >example.<module>()
-        >example.f(10)
-            >example.g(10, '20') = ('20', 10)
-        <example.f(10) = ('20', 10)
-    <example.<module>() = None
-
+$ pytracer example.py
+>example.<module>()
+    >example.f(10)
+        >example.g(10, '20') = ('20', 10)
+    <example.f(10) = ('20', 10)
+<example.<module>() = None
+```
 
 ## Installing ##
 
