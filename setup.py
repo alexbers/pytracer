@@ -7,7 +7,7 @@ with open("README.md", "rt") as readme_fp:
 
 setuptools.setup(
     name="pytracer",
-    version="0.0.2",
+    version="0.0.3",
     description="Prints function calls of the Python program",
     long_description=long_description,
     url="https://github.com/alexbers/pytracer",
@@ -16,7 +16,7 @@ setuptools.setup(
     maintainer="Alexander Bersenev",
     maintainer_email="bay@hackerdom.ru",
     license="MIT",
-    packages=[],
+    py_modules=["pytracer"],
     scripts=[
         "pytracer.py", "pytracer"
     ],
